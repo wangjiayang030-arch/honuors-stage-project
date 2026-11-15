@@ -79,5 +79,17 @@ function deleteWorkout(id) {
     });
 }
 
+// Update an existing workout entry
+function updateWorkout(workoutData) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(["workouts"], "readwrite");
+        const store = transaction.objectStore("workouts");
+        const request = store.put(workoutData);
+
+        request.onsuccess = () => resolve();
+        request.onerror = (e) => reject(e.target.error);
+    });
+}
+
 // Wait for database ready globally
 dbReadyPromise = initDB();
